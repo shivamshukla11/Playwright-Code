@@ -36,6 +36,23 @@ test.only('Login with registered user', async({page})=>{
     await loginBtn.click();
     const screenText= await page.locator('[style="margin-top: -28px;"]').textContent();
     console.log(screenText);
-    console.log(await page.locator('.row b').nth(0).textContent());
-})
+    expect(await page.locator('.row b').nth(1)).toHaveText("ZARA COAT 3");
+    await page.locator('.card-body button').nth(3).click();
+    await page.locator('.btn-custom').nth(2).click();
+    const productLable = page.locator('.infoWrap h3');
+    const priceTag = page.locator('.infoWrap p').nth(1);
+    console.log(await productLable.textContent());
+    console.log(await priceTag.textContent());
+    await page.locator('button.btn-primary').nth(2).click();
+    console.log(await page.locator('.item__title').textContent());
+    await page.locator('.txt').nth(1).fill("121");
+    await page.locator('.txt').nth(2).fill("Shivam");
+    await page.locator('.text-validated').nth(2).fill("India");
+    await page.locator('.ng-star-inserted a').nth(2).click();
+    await page.pause();
+  
+
+
+
+});
    
