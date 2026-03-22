@@ -36,23 +36,57 @@ test.only('Login with registered user', async({page})=>{
     await loginBtn.click();
     const screenText= await page.locator('[style="margin-top: -28px;"]').textContent();
     console.log(screenText);
-    expect(await page.locator('.row b').nth(1)).toHaveText("ZARA COAT 3");
-    await page.locator('.card-body button').nth(3).click();
-    await page.locator('.btn-custom').nth(2).click();
-    const productLable = page.locator('.infoWrap h3');
-    const priceTag = page.locator('.infoWrap p').nth(1);
-    console.log(await productLable.textContent());
-    console.log(await priceTag.textContent());
-    await page.locator('button.btn-primary').nth(2).click();
+    const productName = "ZARA COAT 3";
+    const productBody = page.locator('.card-body')
+    const productCount = await productBody.count();
+    console.log(productCount);
+
+    //Loop written for the product match.
+
+    for(let i=0;i<productCount;++i){
+       const productMatch = await productBody.nth(i).locator('b');
+       console.log(await productMatch.textContent());
+       if(await productMatch.textContent()===productName){
+        await productBody.nth(i).locator("text= Add To Cart").click();
+        break;
+       }
+    }
+
+    await page.locator("[routerlink*='cart']").click()
+    const cartSelection = page.locator('.items h3');
+    await cartSelection.waitFor();
+    const cartCount = await cartSelection.count();
+    for(let i = 0; i<cartCount; ++i){
+        const productTitle = await cartSelection.nth(i).textContent();
+        if(productTitle===productName){
+            await page.getByRole('button',{name:"Checkout"}).click();
+        }
+
+    }
+
+    // page.pause()
     console.log(await page.locator('.item__title').textContent());
     await page.locator('.txt').nth(1).fill("121");
     await page.locator('.txt').nth(2).fill("Shivam");
-    await page.locator('.text-validated').nth(2).fill("India");
-    await page.locator('.ng-star-inserted a').nth(2).click();
-    await page.pause();
+
+     await page.getByPlaceholder('Select Country').pressSequentially("ind", { delay: 150 }) 
+   const dropdown = page.locator(".ta-results");
+   await dropdown.waitFor();
+   const optionsCount = await dropdown.locator("button").count();
+   for (let i = 0; i < optionsCount; ++i) {
+      const text = await dropdown.locator("button").nth(i).textContent();
+      if (text === " India") {
+         await dropdown.locator("button").nth(i).click();
+         break;
+      }
+   }
+    //  expect(page.locator(".user__name [type='text']").first()).toHaveText(email);
+     await page.locator(".action__submit").click();
+
+    const orderBox = await page.getByText('Thankyou for the order.').waitFor();
+    const orderId = orderBox.locator('label').textContent();
+    console.log(orderId);
+
   
-
-
-
 });
    

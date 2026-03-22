@@ -22,7 +22,7 @@ const config = ({
     browserName: 'chromium',
     baseURL: 'https://rakbankpay-test.rakbanktst.ae/login',
     // just to make the project running in headed or headless mode we need to set it as headed or headless.
-    headless: false
+    headless: true
   },
 
 });
