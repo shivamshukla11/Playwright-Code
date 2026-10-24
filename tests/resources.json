@@ -1,0 +1,8 @@
+{
+    "apiResources": {
+    "BaseURL": "https://reqres.in/api",
+    "x-api-key":"free_user_3KmiIiQp5g8UtwZvzxVanWdtD8",
+    "X-Reqres-Env": "prod",
+    "valueToSave": ""
+}
+}
